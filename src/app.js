@@ -1,27 +1,27 @@
+const dotenv = require('dotenv')
+const express = require('express')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
-import dotenv from 'dotenv';
-import express from 'express';
-import booksRouter from './routes/books.routes.js';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-
+const bookRoutes = require('./routes/books.routes')
 dotenv.config()
- const url = 'mongodb://RiquiAmado:123456@localhost:27017'
-// const url = process.env.MONGO_URL;
-const dbname= "books"
+
+const url = process.env.MONGO_URL 
 console.log(url)
 
+// Usamos express para los middlewares 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json())
-app.use("/books",booksRouter)
+app.use(bodyParser.json()) // Parseador de Bodies
+app.use('/books', bookRoutes)
 
-mongoose.connect(url,{dbName: dbname})
+//Acá conectaremos la base de datos:
+mongoose.connect(url, { dbName: process.env.MONGO_DB_NAME })
 const db = mongoose.connection;
 
-const PORT =  3000;
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`)
+const port = process.env.PORT 
+console.log(port)
+
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`)
 })

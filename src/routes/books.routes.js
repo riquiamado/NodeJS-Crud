@@ -1,5 +1,5 @@
-import Router from "express";
-import booksModels from "../models/books.models.js";
+const Router = require('express')
+const booksModels = require('../models/books.models')
 
 const router = Router();
 
@@ -63,4 +63,4 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {}
 });
 
-export default router;
+module.exports=router;
